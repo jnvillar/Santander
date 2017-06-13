@@ -1,4 +1,4 @@
-# Satander
+# Santander
 
 Simple scrip for collecting Satander's investment funds data.
 
