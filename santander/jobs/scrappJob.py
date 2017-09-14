@@ -6,9 +6,9 @@ from santander.helpers import scrapper
 scrapper_tool = scrapper.Scrapper()
 sched = BlockingScheduler()
 
-@sched.scheduled_job('interval', hours=24)
-def scrapp():
 
+@sched.scheduled_job('interval', seconds=10)
+def scrapp():
     print('Scrapping')
 
     investments_founds_names = scrapper_tool.get_investment_founds()
@@ -19,7 +19,7 @@ def scrapp():
 
     database.insert_today_values(investments_founds_names, investments_founds_values)
 
-
+    print('Data saved')
 
 
 sched.start()

@@ -1,8 +1,8 @@
 from pymongo import MongoClient
 import time
 
-client = MongoClient('localhost', 27017)
-db = client['santander']
+connection = MongoClient('mongodb://heroku_wgqsrc8w:s98djebebkgm5m9iogan5kn1lr@ds045608.mlab.com:45608/heroku_wgqsrc8w')
+db = connection['santander']
 
 
 def get_all_funds():
@@ -19,6 +19,8 @@ def get_fund(fund):
 
 
 def exists(fund):
+    print(fund)
+    print(db.funds.find_one({"name": fund}))
     return db.funds.find_one({"name": fund}) is not None
 
 
@@ -38,8 +40,11 @@ def insert_value(fund, value):
 
 def insert_today_values(investments_founds_names, investments_founds_values):
     for i in range(len(investments_founds_names)):
+        print(i)
         insert(investments_founds_names[i])
+        print("fondo insertado")
         insert_value(investments_founds_names[i], investments_founds_values[i])
+        print("valor insertado")
 
 
 def calculate_value(value):
