@@ -1,8 +1,15 @@
 from pymongo import MongoClient
 import time
 
-connection = MongoClient('mongodb://heroku_wgqsrc8w:s98djebebkgm5m9iogan5kn1lr@ds045608.mlab.com:45608/heroku_wgqsrc8w')
-db = connection['santander']
+DB_NAME = 'heroku_93qz5h0m'
+DB_HOST = 'ds115671.mlab.com'
+DB_PORT = 15671
+DB_USER = 'heroku_93qz5h0m'
+DB_PASS = 'jfj47hk7v5m84g13am92tladdr'
+
+connection = MongoClient('ds115671.mlab.com', 15671)
+db = connection['heroku_93qz5h0m']
+db.authenticate('heroku_93qz5h0m', 'jfj47hk7v5m84g13am92tladdr')
 
 
 def get_all_funds():
