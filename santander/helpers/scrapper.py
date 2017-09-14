@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup as bs
-from src.config import scrapperConfig
+
+from santander.config import scrapperConfig
 
 
 def contains(mount, word):
