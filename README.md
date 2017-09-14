@@ -1,6 +1,6 @@
 # Santander
 
-Simple scrip for collecting Satander's investment funds data.
+Simple script for collecting Santander's investment funds data.
 
 # Requirements
 
