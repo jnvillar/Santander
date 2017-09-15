@@ -1,7 +1,7 @@
-from santander.services import database
 from apscheduler.schedulers.blocking import BlockingScheduler
 
 from santander.helpers import scrapper
+from santander.services import database
 
 scrapper_tool = scrapper.Scrapper()
 sched = BlockingScheduler()

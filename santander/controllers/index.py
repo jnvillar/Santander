@@ -1,37 +1,44 @@
-from flask import Blueprint
-from flask import jsonify
-
-import santander.services.database as database
+from bson.json_util import dumps, loads
+from flask import Blueprint, jsonify
+import santander.services.database as db
 from santander.helpers import scrapper
-from bson.json_util import dumps
 
 main = Blueprint('main', __name__)
 scrapper_tool = scrapper.Scrapper()
 
 
-@main.route('/a')
+@main.route('/ping')
 def ping():
     return 'pong'
 
 
-@main.route('/fondos')
-def investment_funds_today_value():
-    funds = database.get_all_funds()
-    funds = [doc for doc in funds]
-    return dumps(funds)
-
-
 @main.route('/')
 def investment_funds_all_values():
-    investments_founds_names = scrapper_tool.get_investment_founds()
-    investments_founds_values = scrapper_tool.get_investment_founds_today_values()
-    sub_list = [investments_founds_values[n:n + 5] for n in range(0, len(investments_founds_values), 5)]
+    funds = db.get_all_funds()
+    funds = [
+        {
+            'id': str(fund['_id']),
+            'name': fund['name'],
+            'profit': fund['profit'],
+            'currency': 'PESOS',
+            'link': 'link',
+            'value': fund['values'][-1]['value']
+        }
+        for fund in funds]
+    return jsonify(funds)
 
-    res = []
-    for investments_found, values in zip(investments_founds_names, sub_list):
-        obj = dict()
-        obj['name'] = investments_found
-        obj['values'] = values
-        res.append(obj)
+
+@main.route('/fund/<fund_id>')
+def investment_fund_today_single_values(fund_id):
+    fund = db.get_fund(fund_id)
+
+    res = {
+        'id': str(fund['_id']),
+        'name': fund['name'],
+        'profit': fund['profit'],
+        'currency': 'PESOS',
+        'link': 'link',
+        'values': fund['values']
+    }
 
     return jsonify(res)

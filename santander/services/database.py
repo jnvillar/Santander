@@ -1,4 +1,6 @@
 from pymongo import MongoClient
+from bson.objectid import ObjectId
+
 import time
 
 DB_NAME = 'heroku_93qz5h0m'
@@ -21,13 +23,11 @@ def insert(fund):
         db.funds.insert_one({"name": fund, "values": [], "profit": 1.0, "lastUpdate": "notToday"})
 
 
-def get_fund(fund):
-    return db.funds.find_one({"name": fund})
+def get_fund(id):
+    return db.funds.find_one({"_id": ObjectId(id)})
 
 
 def exists(fund):
-    print(fund)
-    print(db.funds.find_one({"name": fund}))
     return db.funds.find_one({"name": fund}) is not None
 
 
@@ -47,11 +47,8 @@ def insert_value(fund, value):
 
 def insert_today_values(investments_founds_names, investments_founds_values):
     for i in range(len(investments_founds_names)):
-        print(i)
         insert(investments_founds_names[i])
-        print("fondo insertado")
         insert_value(investments_founds_names[i], investments_founds_values[i])
-        print("valor insertado")
 
 
 def calculate_value(value):

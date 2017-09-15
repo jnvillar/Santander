@@ -1,4 +1,4 @@
-web: gunicorn app:app
+web: gunicorn application:app
 init: python db_create.py
 upgrade: python db_upgrade.py
 clock: python santander/jobs/scrappJob.py
