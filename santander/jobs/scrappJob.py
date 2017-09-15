@@ -7,7 +7,7 @@ scrapper_tool = scrapper.Scrapper()
 sched = BlockingScheduler()
 
 
-@sched.scheduled_job('interval', hours=24)
+@sched.scheduled_job('cron', hour=7)
 def scrapp():
     print('Scrapping')
 
