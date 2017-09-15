@@ -27,6 +27,10 @@ def get_fund(id):
     return db.funds.find_one({"_id": ObjectId(id)})
 
 
+def get_fund_by_name(fund_name):
+    return db.funds.find_one({"name": fund_name})
+
+
 def exists(fund):
     return db.funds.find_one({"name": fund}) is not None
 
@@ -37,7 +41,7 @@ def last_update_is(fund, date):
 
 def insert_value(fund, value):
     date = time.strftime("%d/%m/%Y")
-    fund = get_fund(fund)
+    fund = get_fund_by_name(fund)
     if not last_update_is(fund, date):
         profit = fund['profit'] * calculate_value(value)
         values = {"value": value, "date": date}
