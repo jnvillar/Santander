@@ -18,13 +18,20 @@ def get_all_funds():
     return db.funds.find({})
 
 
+def modify_value(fund_id, key, value):
+    if key in ["currency", "link"]:
+        print(key, value)
+        db.funds.update_one({"_id": ObjectId(fund_id)}, {"$set": {str(key): str(value)}})
+
+
 def insert(fund):
     if not exists(fund):
-        db.funds.insert_one({"name": fund, "values": [], "profit": 1.0, "lastUpdate": "notToday"})
+        db.funds.insert_one(
+            {"name": fund, "values": [], "profit": 1.0, "lastUpdate": "notToday", "currency": "PESOS", "link": "link"})
 
 
-def get_fund(id):
-    return db.funds.find_one({"_id": ObjectId(id)})
+def get_fund(fund_id):
+    return db.funds.find_one({"_id": ObjectId(fund_id)})
 
 
 def get_fund_by_name(fund_name):

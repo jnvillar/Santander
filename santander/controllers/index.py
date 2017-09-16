@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 import santander.services.database as db
-from santander.helpers import scrapper
+from santander.helpers import scrapper, serializer
 
 main = Blueprint('main', __name__)
 scrapper_tool = scrapper.Scrapper()
@@ -12,8 +12,7 @@ def ping():
 
 
 @main.route('/', methods=['GET'])
-def investment_funds_all_values():
-    
+def index():
     order = request.args.get('order')
 
     if not order:
@@ -25,8 +24,8 @@ def investment_funds_all_values():
             'id': str(fund['_id']),
             'name': fund['name'],
             'profit': fund['profit'],
-            'currency': 'PESOS',
-            'link': 'link',
+            'currency': fund['currency'],
+            'link': fund['link'],
             'value': fund['values'][-1]['value']
         }
         for fund in funds]
@@ -37,16 +36,17 @@ def investment_funds_all_values():
 
 
 @main.route('/fund/<fund_id>')
-def investment_fund_today_single_values(fund_id):
-    fund = db.get_fund(fund_id)
+def get_fund(fund_id):
+    fund = serializer.serialize_fund(db.get_fund(fund_id))
+    return jsonify(fund)
 
-    res = {
-        'id': str(fund['_id']),
-        'name': fund['name'],
-        'profit': fund['profit'],
-        'currency': 'PESOS',
-        'link': 'link',
-        'values': fund['values']
-    }
 
-    return jsonify(res)
+@main.route('/fund/edit/<fund_id>')
+def edit_fund(fund_id):
+    key = request.args.get('key')
+    value = request.args.get('value')
+
+    db.modify_value(fund_id, key, value)
+
+    fund = serializer.serialize_fund(db.get_fund(fund_id))
+    return jsonify(fund)
