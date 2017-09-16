@@ -1,5 +1,4 @@
-from bson.json_util import dumps, loads
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 import santander.services.database as db
 from santander.helpers import scrapper
 
@@ -12,8 +11,14 @@ def ping():
     return 'pong'
 
 
-@main.route('/')
+@main.route('/', methods=['GET'])
 def investment_funds_all_values():
+    
+    order = request.args.get('order')
+
+    if not order:
+        order = "profit"
+
     funds = db.get_all_funds()
     funds = [
         {
@@ -26,7 +31,7 @@ def investment_funds_all_values():
         }
         for fund in funds]
 
-    funds = sorted(funds, key=lambda k: k['profit'], reverse=True)
+    funds = sorted(funds, key=lambda k: k[order], reverse=True)
 
     return jsonify(funds)
 
