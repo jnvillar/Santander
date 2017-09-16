@@ -25,6 +25,9 @@ def investment_funds_all_values():
             'value': fund['values'][-1]['value']
         }
         for fund in funds]
+
+    funds = sorted(funds, key=lambda k: k['profit'], reverse=True)
+
     return jsonify(funds)
 
 
