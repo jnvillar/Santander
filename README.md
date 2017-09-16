@@ -1,16 +1,13 @@
 # Santander
 
-Simple script for collecting Santander's investment funds data.
+Simple rest-api for collecting Santander's investment funds data in a mongodb database.
 
 # Requirements
 
-- Mongo db
-- Some python libraries
+- Some python libraries (install requirements.txt)
 
 # Instrucctions:
 
-Steps:
+Start rest-api:
 
-1) $ mongod
-2) $ mongo   (in other terminal)
-3) $ python makeMeRich.py
+$ gunicorn application:app
