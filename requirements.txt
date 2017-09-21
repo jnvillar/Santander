@@ -1,6 +1,6 @@
 Flask == 0.12.2
 beautifulsoup4 == 4.6.0
-APScheduler==3.0.0
+APScheduler==3.2.0
 pymongo == 3.5.1
 requests==2.18.2
 gunicorn==19.7.1

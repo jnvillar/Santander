@@ -7,7 +7,7 @@ scrapper_tool = scrapper.Scrapper()
 sched = BlockingScheduler()
 
 
-@sched.scheduled_job('cron', day_of_week='1-5', hour=6)
+@sched.scheduled_job('cron', day_of_week='tue-sat', hour=4)
 def scrapp():
     print('Scrapping')
 
@@ -20,6 +20,11 @@ def scrapp():
     database.insert_today_values(investments_founds_names, investments_founds_values)
 
     print('Data saved')
+
+
+@sched.scheduled_job('interval', minutes=1)
+def ping():
+    print('I am alive!')
 
 
 sched.start()
