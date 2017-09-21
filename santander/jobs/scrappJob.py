@@ -21,10 +21,4 @@ def scrapp():
 
     print('Data saved')
 
-
-@sched.scheduled_job('interval', minutes=1)
-def ping():
-    print('I am alive!')
-
-
 sched.start()
