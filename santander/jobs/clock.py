@@ -8,7 +8,7 @@ scrapper_tool = scrapper.Scrapper()
 sched = BlockingScheduler()
 
 
-@sched.scheduled_job('interval', minutes=1)
+@sched.scheduled_job('interval', hours=1)
 def scrapp():
     print('Scrapping')
     day = time.strftime("%a")
